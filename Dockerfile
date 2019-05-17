@@ -13,7 +13,7 @@ RUN apt-get update && apt-get install -y \
       mysql-server \
       vim \
       nano \
-      proftpd
+      proftpd \
  && apt-get upgrade -y
  && rm -rf /var/lib/apt/lists/*
 

@@ -30,23 +30,18 @@ RUN curl -fsSL -o oxwall.zip \
  && mv oxwall.zip /usr/src/oxwall/ \
  && cd /usr/src/oxwall \
  && unzip oxwall.zip \
- && rm oxwall.zip
-
-RUN cp /usr/local/etc/php/php.ini-development /usr/local/etc/php/php.ini
-
-RUN /etc/init.d/mysql start \
-    && update-rc.d mysql defaults
+ && rm oxwall.zip \
+ && cp /usr/local/etc/php/php.ini-development /usr/local/etc/php/php.ini
 
 RUN /etc/init.d/mysql start \
+    && update-rc.d mysql defaults \
     && mysqladmin -u root password oxwall \
     && mysql -u root -poxwall mysql -e "update user set plugin='mysql_native_password' where User='root';" \
     && mysql -u root -poxwall -e "create database oxwall;"
 
 COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
-
-COPY ftpusers /etc/ftpusers
-RUN echo 'RootLogin on' >> /etc/proftpd/proftpd.conf
+RUN chmod +x /entrypoint.sh \
+    && useradd oxwall -d /var/www/html -M -G www-data -s /bin/bash -p aabolAUcaEi0Q
 
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["apache2-foreground"]

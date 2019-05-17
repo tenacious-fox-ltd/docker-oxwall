@@ -45,5 +45,8 @@ RUN /etc/init.d/mysql start \
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
+COPY ftpusers /etc/ftpusers
+RUN echo 'RootLogin on' >> /etc/proftpd/proftpd.conf
+
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["apache2-foreground"]

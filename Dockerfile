@@ -43,6 +43,7 @@ RUN /etc/init.d/mysql start \
     && mysql -u root -poxwall -e "create database oxwall;"
 
 COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["apache2-foreground"]
